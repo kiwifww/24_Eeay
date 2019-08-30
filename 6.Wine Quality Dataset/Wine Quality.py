@@ -76,62 +76,62 @@ data = pd.read_csv("winequality-red.csv", sep=';')
 # gridA = gridA.plot_marginals(sns.distplot)
 # plt.show()
 
-# fig, axs = plt.subplots(ncols=1, figsize=(10, 6))
-# sns.barplot(x='quality', y='volatile acidity', data='volatileAcidity_quality', ax=axs)
-# plt.title('quality VS volatile acidity')
-# plt.tight_layout()
-# plt.show()
-# plt.gcf().clear()
+fig, axs = plt.subplots(ncols=1, figsize=(10, 6))
+sns.barplot(x="quality", y="volatile acidity", data=data, ax=axs)
+plt.title('quality VS volatile acidity')
+plt.tight_layout()
+plt.show()
+plt.gcf().clear()
 
 
 
-# 机器学习
-# 定义类别的分割点。
-bins = [1, 4, 6, 10]
-
-# 定义类别
-quality_labels = [0, 1, 2]
-data['quality_categorical'] = pd.cut(data['quality'], bins=bins, labels=quality_labels, include_lowest=True)
-
-# # 显示头两行
-# print(data.head(n=2))
-# print(data.info())
-
-# 分离数据为特征和目标标签
-quality_raw = data['quality_categorical']
-features_raw = data.drop(['quality', 'quality_categorical'], axis=1)
-
-from sklearn.model_selection import train_test_split
-
-# 将数据分为训练集和测试集
-X_train, X_test, y_train, y_test = train_test_split(features_raw, quality_raw,  test_size=0.2,  random_state=0)
-
-# # 显示分离的结果
-# print("Training set has {} samples.".format(X_train.shape[0]))
-# print("Testing set has {} samples.".format(X_test.shape[0]))
-
-# 从sklearn导入任意3种监督学习分类模型
-
-from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-
-# 初始化3个模型
-clf_A = GaussianNB()
-clf_B = DecisionTreeClassifier(max_depth=None, random_state=None)
-clf_C = RandomForestClassifier(max_depth=None, random_state=None)
-
-# 计算训练集1%、10%、100%样本数目
-samples_100 = len(y_train)
-samples_10 = int(len(y_train)*10/100)
-samples_1 = int(len(y_train)*1/100)
-
-# 收集结果
-
-results = {}
-for clf in [clf_A, clf_B, clf_C]:
-    clf_name = clf.__class__.__name__
-    results[clf_name] = {}
-    for i, samples in enumerate([samples_1, samples_10, samples_100]):
-        results[clf_name][i] = train_predict_evaluate(clf, samples, X_train, y_train, X_test, y_test)
+# # 机器学习
+# # 定义类别的分割点。
+# bins = [1, 4, 6, 10]
+#
+# # 定义类别
+# quality_labels = [0, 1, 2]
+# data['quality_categorical'] = pd.cut(data['quality'], bins=bins, labels=quality_labels, include_lowest=True)
+#
+# # # 显示头两行
+# # print(data.head(n=2))
+# # print(data.info())
+#
+# # 分离数据为特征和目标标签
+# quality_raw = data['quality_categorical']
+# features_raw = data.drop(['quality', 'quality_categorical'], axis=1)
+#
+# from sklearn.model_selection import train_test_split
+#
+# # 将数据分为训练集和测试集
+# X_train, X_test, y_train, y_test = train_test_split(features_raw, quality_raw,  test_size=0.2,  random_state=0)
+#
+# # # 显示分离的结果
+# # print("Training set has {} samples.".format(X_train.shape[0]))
+# # print("Testing set has {} samples.".format(X_test.shape[0]))
+#
+# # 从sklearn导入任意3种监督学习分类模型
+#
+# from sklearn.naive_bayes import GaussianNB
+# from sklearn.tree import DecisionTreeClassifier
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.linear_model import LogisticRegression
+#
+# # 初始化3个模型
+# clf_A = GaussianNB()
+# clf_B = DecisionTreeClassifier(max_depth=None, random_state=None)
+# clf_C = RandomForestClassifier(max_depth=None, random_state=None)
+#
+# # 计算训练集1%、10%、100%样本数目
+# samples_100 = len(y_train)
+# samples_10 = int(len(y_train)*10/100)
+# samples_1 = int(len(y_train)*1/100)
+#
+# # 收集结果
+#
+# results = {}
+# for clf in [clf_A, clf_B, clf_C]:
+#     clf_name = clf.__class__.__name__
+#     results[clf_name] = {}
+#     for i, samples in enumerate([samples_1, samples_10, samples_100]):
+#         results[clf_name][i] = train_predict_evaluate(clf, samples, X_train, y_train, X_test, y_test)
